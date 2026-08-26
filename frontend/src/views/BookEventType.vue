@@ -94,6 +94,7 @@ async function submit() {
           v-for="slot in slots"
           :key="slot.start_at"
           type="button"
+          :data-start-at="slot.start_at"
           @click="selectedSlot = slot.start_at"
           :class="[
             'rounded-md border px-3 py-2 text-sm',
