@@ -30,7 +30,7 @@ export default defineConfig({
   webServer: [
     {
       command: 'cd ../backend && RAILS_ENV=test bin/rails server -p 3000 -b 0.0.0.0',
-      url: `http://localhost:${BACKEND_PORT}/api/event_types`,
+      url: `http://localhost:${BACKEND_PORT}/event_types`,
       reuseExistingServer: !process.env.CI,
       timeout: 60_000,
       stdout: 'pipe',
