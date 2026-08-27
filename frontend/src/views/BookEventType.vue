@@ -112,16 +112,18 @@ async function submit() {
 
       <form class="mt-6 space-y-4" @submit.prevent="submit">
         <div>
-          <label class="block text-sm font-medium">Name</label>
+          <label for="guest-name" class="block text-sm font-medium">Name</label>
           <input
+            id="guest-name"
             v-model="guestName"
             type="text"
             class="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
           />
         </div>
         <div>
-          <label class="block text-sm font-medium">Email</label>
+          <label for="guest-email" class="block text-sm font-medium">Email</label>
           <input
+            id="guest-email"
             v-model="guestEmail"
             type="email"
             class="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
