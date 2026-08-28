@@ -56,4 +56,34 @@ test.describe('Guest booking flow', () => {
 
     await expect(page.getByText('This slot was just taken. Please pick another.')).toBeVisible()
   })
+
+  test('booking a slot already taken under a different event type shows a conflict', async ({ page, request }) => {
+    // The owner has a single shared schedule, so a slot booked for one
+    // event type must not be bookable again under a different event type.
+    await page.goto('/event_types/1/book')
+    await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
+
+    const slotButtons = page.locator('button', { hasText: /\d/ })
+    await expect(slotButtons.first()).toBeVisible()
+
+    const startAt = await slotButtons.first().getAttribute('data-start-at')
+    await slotButtons.first().click()
+    await page.getByLabel('Name').fill('Second Guest')
+    await page.getByLabel('Email').fill(`second+${Date.now()}@example.com`)
+
+    // Simulate another guest booking the exact same slot for a different event type.
+    const raceResponse = await request.post('/api/bookings', {
+      data: {
+        event_type_id: 2,
+        start_at: startAt,
+        guest_name: 'First Guest',
+        guest_email: `first+${Date.now()}@example.com`,
+      },
+    })
+    expect(raceResponse.ok()).toBeTruthy()
+
+    await page.getByRole('button', { name: 'Confirm booking' }).click()
+
+    await expect(page.getByText('This slot was just taken. Please pick another.')).toBeVisible()
+  })
 })
