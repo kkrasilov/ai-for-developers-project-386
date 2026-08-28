@@ -8,8 +8,8 @@ class EventType < ApplicationRecord
 
   # Генерирует доступные слоты на ближайшие дни в рабочие часы (09:00-17:00),
   # исключая уже занятые бронированиями.
-  def available_slots(from: Time.current, days: 7, day_start_hour: 9, day_end_hour: 17)
-    booked = bookings.where("start_at >= ?", from).pluck(:start_at).to_set
+  def available_slots(from: Time.current, days: 14, day_start_hour: 9, day_end_hour: 17)
+    booked = Booking.where("start_at >= ?", from).pluck(:start_at).to_set
     slots = []
 
     days.times do |day_offset|
