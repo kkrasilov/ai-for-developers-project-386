@@ -5,7 +5,7 @@ class Booking < ApplicationRecord
   validates :guest_email, presence: true,
                           format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :start_at, presence: true
-  validates :start_at, uniqueness: { scope: :event_type_id, message: "slot already booked" }
+  validates :start_at, uniqueness: { message: "slot already booked" }
 
   before_validation :set_end_at
 
